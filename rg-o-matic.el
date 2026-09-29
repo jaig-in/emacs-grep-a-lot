@@ -139,6 +139,16 @@ Falls back to `vc-root-dir', then `default-directory'."
       (compilation-start cmd 'grep-mode (lambda (_) buf-name)))))
 
 ;;;###autoload
+(defun rg (search-term directory)
+  "Run ripgrep interactively — the `M-x grep' equivalent for rg.
+Prompts for SEARCH-TERM and DIRECTORY, then shows results in a
+named *rg:<term>*<N> buffer with `grep-mode'."
+  (interactive
+   (list (read-string "rg search: " (thing-at-point 'symbol t))
+         (read-directory-name "In directory: " default-directory nil t)))
+  (rg-o-matic-search search-term directory))
+
+;;;###autoload
 (defun rg-o-matic-setup-keys ()
   "Set up default key bindings for rg-o-matic.
 Binds M-\\ as a prefix with / . , for project, directory, open files."
